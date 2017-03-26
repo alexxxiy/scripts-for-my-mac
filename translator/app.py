@@ -40,22 +40,19 @@ def main(data, source):
 	if cache and not args.force:
 		print(cache[0])
 	else:
-		try:
-			result = service.run(data['text'], data['fromLang'], data['toLang'])
-			# если результат равен запросу, то скорее всего неверный текст запроса
-			if data['text'] == result:
-				raise Exception('Что-то пошло не так :(')
+		result = service.run(data['text'], data['fromLang'], data['toLang'])
 
-			if cache and args.force: sql = queries.update(table=table, fromText=data['text'], toText=result)
-			else:                    sql = queries.insert(table=table, fromText=data['text'], toText=result)
-			# print(sql)
-			cursor.execute(sql)
+		# если результат равен запросу, то скорее всего неверный текст запроса
+		if data['text'] == result:
+			raise Exception('Что-то пошло не так :(')
 
-			print(result)
-		except Exception as e:
-			print(colored(e, 'red'))
+		if cache and args.force: sql = queries.update(table=table, fromText=data['text'], toText=result)
+		else:                    sql = queries.insert(table=table, fromText=data['text'], toText=result)
+		# print(sql)
+		cursor.execute(sql)
+		print(result)
 
-	connection.commit();
+	
 
 
 
@@ -110,9 +107,13 @@ else:
 		sources.add('itranslate4')
 
 # call translator()
-for source in sources:
-	main(data, source)
-
+try:
+	for source in sources:
+		main(data, source)
+except Exception as e:
+	print(colored(e, 'red'))
+finally:
+	connection.commit();
 
 
 
