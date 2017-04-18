@@ -1,4 +1,4 @@
-#!/usr/local/bin/python
+#!/usr/local/bin/python3
 # usage:
 # app <approximate application name>
 # example:
@@ -60,7 +60,9 @@ elif(length == 2):
 			results.append(app)
 	# print(results)
 	if len(results) == 0: print('\x1b[31mApps not found\x1b[0m')
-	if len(results) == 1: os.system('open ' + results[0][1].replace(' ', '\ '))
+	if len(results) == 1:
+		print(colored('Starting ' + results[0][0], 'green', attrs=['bold']))
+		os.system('open ' + results[0][1].replace(' ', '\ '))
 	elif len(results) > 1:
 		for app in results:
 			printApp = app[0]
