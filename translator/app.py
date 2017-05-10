@@ -58,7 +58,7 @@ def main(data, source):
 
 # arguments
 parser = argparse.ArgumentParser(description='translate text')
-parser.add_argument('--force', action='store_true')
+parser.add_argument('--force', action='store_true', help='don\'t use cache')
 parser.add_argument('-y', action='store_true', help='use yandex api')
 parser.add_argument('-g', action='store_true', help='use google api')
 parser.add_argument('-t', action='store_true', help='use itranslate4 api')
